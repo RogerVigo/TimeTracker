@@ -18,7 +18,7 @@ class CreateTimesTable extends Migration
             $table->foreignId('task_id')->constrained('tasks');
             $table->enum('type', ['NORMAL', 'BREAK', 'LUNCH'])->nullable(false);
             $table->enum('action', ['START', 'STOP'])->nullable(false);
-            $table->timestamp('created_at');
+            $table->integer('created_at')->nullable(false);
         });
     }
 

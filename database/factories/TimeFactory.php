@@ -3,9 +3,22 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Collection;
 
 class TimeFactory extends Factory
 {
+
+    private $order;
+    private $position;
+    private $lastUsedTime;
+
+    public function init($order){
+        $this->order = $order;
+        $this->position = 0;
+        $this->lastUsedTime = time();
+        return $this;
+    }
+
     /**
      * Define the model's default state.
      *
@@ -13,13 +26,13 @@ class TimeFactory extends Factory
      */
     public function definition()
     {
-        $type = ['NORMAL', 'BREAK', 'LUNCH'];
-        $action = ['START', 'STOP'];
+        $time = $this->lastUsedTime + random_int(1800, 28800);
+        $this->lastUsedTime = $time;
 
         return [
-            'type' => $type[random_int(0,2)],
-            'action' => $action[random_int(0,1)],
-            'created_at' => now()
+            'type' => $this->order[$this->position][0],
+            'action' => $this->order[$this->position++][1],
+            'created_at' => $time
         ];
     }
 }
